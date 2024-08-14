@@ -1,13 +1,17 @@
 import express from "express";
 import dotenv from "dotenv";
+import cors from "cors"
 import Prisma from "./db/Prisma.js";
+import { signIn } from "./auth/authController.js";
 
 dotenv.config();
 
 const app = express();
-const port = 3990;
+const port = process.env.PORT;
+
 
 app.use(express.json());
+app.use(cors());
 
 app.get('/', async(req, res) => {
 
@@ -43,5 +47,7 @@ app.post('/create-user', async(req, res) => {
         });
     }
 });
+
+app.post('/sign-in', signIn);
 
 app.listen(port, () => console.log(`App listening on port ${port}!`));
